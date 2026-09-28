@@ -23,7 +23,7 @@
 <meta name="twitter:card" content="summary_large_image">
   
   <!-- Unified Design Stylesheet -->
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=20260928b">
 
   <!-- Google Analytics 4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RT77KDZZ8Q"></script>
@@ -31,7 +31,7 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-RT77KDZZ8Q');
+    if (location.hostname === 'drbhartisurgery.com') gtag('config', 'G-RT77KDZZ8Q', {send_page_view: false});
   </script>
 
   <!-- Structured Data (JSON-LD Schemas) -->
@@ -78,6 +78,7 @@
         <li class="nav-item"><a href="index.html#about" class="nav-link">About Doctor</a></li>
         <li class="nav-item"><a href="blog.html" class="nav-link">Research &amp; Blog</a></li>
         <li class="nav-item"><a href="surgeon-in-garhwa.html" class="nav-link">Garhwa OPD</a></li>
+        <li class="nav-item"><a href="bariatu-surgery-clinic-ranchi.html" class="nav-link">Bariatu Clinic</a></li>
         <li class="nav-item"><a href="index.html#locations" class="nav-link">Locations</a></li>
         <li class="nav-item"><a href="index.html#contact" class="nav-link">Contact</a></li>
       </ul>
@@ -90,6 +91,7 @@
 
   <!-- Mobile Nav Drawer -->
   <div class="mob-nav" id="mobNav">
+    <a href="bariatu-surgery-clinic-ranchi.html" onclick="closeMob()">Bariatu Clinic</a>
     <a href="index.html" onclick="closeMob()">Home</a>
     <a href="index.html#treatments" onclick="closeMob()">Surgical Treatments</a>
     <div class="mob-dd-section">
@@ -312,7 +314,7 @@
             <span class="ico">📍</span>
             <div>
               <b>Sai Sushila Hospital, Garhwa</b>
-              <span>1st &amp; 3rd Sunday Consultation</span>
+              <span>1st &amp; 3rd Sunday — confirm visit Consultation</span>
             </div>
           </div>
         </div>
@@ -361,6 +363,7 @@
           <li><a href="appendix-surgery-ranchi.html">Appendix Surgery</a></li>
           <li><a href="acid-reflux-surgery-ranchi.html">Hiatus Hernia &amp; GERD</a></li>
           <li><a href="thyroid-surgery-ranchi.html">Thyroidectomy</a></li>
+          <li><a href="bariatu-surgery-clinic-ranchi.html">Bariatu Clinic</a></li>
           <li><a href="index.html#locations">OPD Timings</a></li>
           <li><a href="surgeon-in-garhwa.html">Garhwa Sunday OPD</a></li>
           <li><a href="laparoscopic-surgeon-jharkhand.html">Patients Across Jharkhand</a></li>
@@ -451,17 +454,7 @@
 <script>
   /* GA4 key events + keyboard accessibility (audit remediation) */
   (function(){
-    document.addEventListener('click', function(ev){
-      var a = ev.target.closest && ev.target.closest('a'); if(!a || typeof gtag!=='function') return;
-      var h = a.getAttribute('href')||'';
-      if(h.indexOf('wa.me')>-1) gtag('event','whatsapp_click',{
-        wa_location: a.getAttribute('data-wa-location')||'unknown',
-        wa_topic: a.getAttribute('data-wa-topic')||'unknown',
-        wa_cta: a.getAttribute('data-wa-cta')||'unknown',
-        link_url:h, page:location.pathname});
-      else if(h.indexOf('tel:')===0) gtag('event','phone_click',{link_url:h,page:location.pathname});
-      else if(h.indexOf('maps.app.goo.gl')>-1||h.indexOf('share.google')>-1||h.indexOf('maps.google')>-1) gtag('event','directions_click',{link_url:h,page:location.pathname});
-    }, true);
+
     /* FAQ toggles: keyboard-operable per WCAG 2.1.1 */
     document.querySelectorAll('.fq').forEach(function(q){
       q.setAttribute('role','button'); q.setAttribute('tabindex','0'); q.setAttribute('aria-expanded','false');
@@ -546,5 +539,6 @@
   }
 })();
 </script>
+<script src="site.js?v=20260928" defer></script>
 </body>
 </html>

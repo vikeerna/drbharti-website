@@ -11,6 +11,7 @@
 :root {
   /* Colors */
   --b800: #0f2d52;      /* Navy — Primary Dark */
+  --b700: #174475;      /* Navy gradient endpoint */
   --b600: #1e5ba8;      /* Blue — Primary CTA */
   --b500: #2269c4;      /* Blue Mid */
   --b300: #93c5fd;      /* Blue Light */
@@ -2337,7 +2338,7 @@ p {
   color: var(--white);
 }
 
-.sc-head h3 {
+.sc-head h3, .sc-head h2 {
   font-family: var(--serif);
   font-size: 1.05rem;
   color: var(--white);
@@ -2986,7 +2987,7 @@ footer {
 
 /* ===== Bridging styles for migrated treatment pages ===== */
 .page-hero-inner{max-width:900px;margin:auto;position:relative;z-index:1;}
-.page-hero-tag{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.12);color:rgba(255,255,255,.9);font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.28rem .8rem;border-radius:4px;margin-bottom:1rem;}
+.page-hero-tag{display:inline-flex;align-items:center;gap:.4rem;background:var(--b50);color:var(--b800);font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.28rem .8rem;border-radius:4px;margin-bottom:1rem;}
 .chips-hero{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1.5rem;}
 .chip-w{background:rgba(255,255,255,.12);color:rgba(255,255,255,.9);font-size:.69rem;font-weight:700;padding:.22rem .65rem;border-radius:4px;letter-spacing:.04em;}
 
@@ -3178,4 +3179,29 @@ a:focus-visible, button:focus-visible, .fq:focus-visible, input:focus-visible, s
     animation: none !important;
   }
   * { scroll-behavior: auto !important; }
+}
+
+/* Location choice and accessible contact controls. */
+.clinic-choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;padding-top:24px;padding-bottom:24px;}
+.clinic-choices a{display:block;padding:20px;border:1px solid var(--n200);border-radius:var(--r-md);background:var(--b50);}
+.clinic-choices strong{display:block;color:var(--b800);font-size:1.05rem;}
+.clinic-choices span{display:block;margin-top:6px;color:var(--n600);font-size:.88rem;}
+.prose a{color:var(--b600);text-decoration:underline;text-underline-offset:3px;}
+.prose ol{list-style:decimal;padding-left:24px;}
+.prose ol li{margin-bottom:10px;}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--teal);outline-offset:4px;}
+@media(max-width:720px){.clinic-choices{grid-template-columns:1fr;}.clinic-choices a{padding:16px;}}
+
+/* Keep location pages readable within the existing treatment-page layout. */
+.page-hero-inner { width: calc(100% - 40px); }
+body > .content-wrap, main > .content-wrap { width: calc(100% - 40px); max-width: 1180px; margin: 0 auto; }
+.page-hero-btns > .btn-wa, .page-hero-btns > .btn-outline-w { display: inline-flex; align-items: center; gap: 8px; padding: 13px 20px; border-radius: 8px; font-weight: 600; }
+.page-hero-btns > .btn-outline-w { color: var(--b800); border-color: var(--b600); }
+.page-hero-btns > .btn-outline-w:hover { background: var(--b50); }
+.sc-body > img { width: 100%; height: auto; border-radius: 8px; margin-bottom: 14px; }
+.sc-body > p { font-size: .9rem; margin-bottom: 12px; }
+.nav-link { padding-left: 8px; padding-right: 8px; }
+@media (min-width:991px) and (max-width:1199px) {
+  .nav-menu, .nav-socials, .nav-right .nav-book { display:none; }
+  .burger { display:block; }
 }
