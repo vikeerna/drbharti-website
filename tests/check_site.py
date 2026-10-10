@@ -31,8 +31,12 @@ class Page(HTMLParser):
 pages={p.name:Page(p.read_text(encoding='utf-8')) for p in ROOT.glob('*.html')}
 errors=[]
 for name,page in pages.items():
+    source=(ROOT/name).read_text(encoding='utf-8')
+    if source.count('id="journey-menu"')!=1: errors.append(f'{name}: shared navigation missing/duplicated')
+    if 'mailto:contact@drbhartisurgery.com' not in source or 'vikeernabharti@gmail.com' in source:
+        errors.append(f'{name}: business email missing/stale')
     if page.h1!=1: errors.append(f'{name}: {page.h1} H1 headings')
-    if sum(urlsplit(src).path=='site.js' for src in page.scripts)!=1: errors.append(f'{name}: missing/duplicate analytics script')
+    if sum(urlsplit(src).path.lstrip('/')=='site.js' for src in page.scripts)!=1: errors.append(f'{name}: missing/duplicate analytics script')
     for link in page.links:
         u=urlsplit(link)
         if u.scheme or u.netloc: continue
@@ -47,7 +51,7 @@ urls=[e.text for e in ET.parse(ROOT/'sitemap.xml').iter('{http://www.sitemaps.or
 assert 'https://drbhartisurgery.com/bariatu-surgery-clinic-ranchi.html' in urls
 for url in urls:
     assert (ROOT/(urlsplit(url).path.lstrip('/') or 'index.html')).exists(),url
-assert 'id="clinic" required' in (ROOT/'index.html').read_text(encoding='utf-8')
+assert 'id="clinic" required' in (ROOT/'appointments.html').read_text(encoding='utf-8')
 assert 'autoDates' not in (ROOT/'surgeon-in-garhwa.html').read_text(encoding='utf-8')
 if errors: raise SystemExit('\n'.join(errors))
 print(f'PASS: {len(pages)} pages; local links, assets, anchors, JSON-LD, sitemap and contact checks.')

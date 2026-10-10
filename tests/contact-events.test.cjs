@@ -37,19 +37,37 @@ assert.ok(!JSON.stringify(live.events).includes('PRIVATE'));
 const local=setup('127.0.0.1');
 local.click('tel:+916206091982');
 assert.equal(local.events.length,0);
-// Exercise the actual form handler: clinic in the message, one analytics event,
-// no name, phone or message in analytics. No network requests are made.
-const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
-const formSource=html.match(/function handleSubmit\(e\) \{[\s\S]*?\n    \}/)[0];
-let opened; const recorded=[];
-const fields={clinic:{value:'bariatu',selectedIndex:0,options:[{text:'Bariatu clinic, Ranchi'}]},name:{value:'TEST PERSON'},phone:{value:'0000000000'},treatment:{selectedIndex:0,options:[{text:'Consultation'}]},msg:{value:'PRIVATE TEST'}};
-const formContext={document:{getElementById:id=>fields[id]},window:{trackContact:(...args)=>recorded.push(args),open:(...args)=>{opened=args;}},setTimeout:()=>{}};
-vm.createContext(formContext); vm.runInContext(formSource,formContext);
-formContext.handleSubmit({preventDefault(){},target:{querySelector:()=>({})}});
-assert.equal(recorded.length,1);
-assert.equal(recorded[0].join('|'),'whatsapp_click|bariatu|form');
-assert.ok(new URL(opened[0]).searchParams.get('text').includes('Preferred clinic: Bariatu clinic, Ranchi'));
-assert.equal(opened[2],'noopener,noreferrer');
-assert.ok(!JSON.stringify(recorded).includes('TEST'));
-console.log('PASS: local suppression, sanitised events, contact classification and appointment form.');
+// Exercise actual handoff code. Preparing a message must not open WhatsApp or
+// record a contact click. Only allowlisted clinic/purpose values enter the URL.
+const journeySource=fs.readFileSync(path.join(root,'journey.js'),'utf8');
+function booking(search='') {
+  const fields={};
+  for(const id of ['consultation-request','clinic','purpose','booking-output','whatsapp-request','booking-message','booking-ready']) {
+    fields[id]={value:id==='purpose'?'opd':'',hidden:true,handlers:{},attrs:{},addEventListener(type,fn){this.handlers[type]=fn;},setAttribute(k,v){this.attrs[k]=v;},removeAttribute(k){delete this[k];},focus(){this.focused=true;}};
+  }
+  vm.runInNewContext(journeySource,{URLSearchParams,location:{search},document:{querySelector:()=>null,querySelectorAll:()=>[],getElementById:id=>fields[id]||null},window:{open(){throw Error('Unexpected automatic handoff');},trackContact(){throw Error('Preview must not record a contact click');}}});
+  return {fields,submit:()=>fields['consultation-request'].handlers.submit({preventDefault(){}})};
+}
+for(const clinic of ['bariatu','samford','garhwa','unsure']) {
+  const b=booking('?clinic='+clinic+'&purpose=second_opinion&name=PRIVATE'); b.submit();
+  assert.equal(b.fields['booking-output'].hidden,false);
+  assert.equal(b.fields['booking-ready'].focused,true);
+  const url=new URL(b.fields['whatsapp-request'].href);
+  assert.equal(url.origin,'https://wa.me'); assert.equal(url.pathname,'/916206091982');
+  assert.match(url.searchParams.get('text'),/Surgical second opinion/);
+  assert.ok(!/consultation fee|confirm.*appointment/i.test(url.searchParams.get('text')));
+  assert.ok(!url.href.includes('PRIVATE'));
+  assert.equal(b.fields['whatsapp-request'].attrs['data-wa-location'],clinic);
+  b.fields.clinic.handlers.change();
+  assert.equal(b.fields['booking-output'].hidden,true);
+  assert.equal(b.fields['whatsapp-request'].href,undefined);
+}
+const invalid=booking('?clinic=PRIVATE&purpose=__proto__'); invalid.submit();
+assert.equal(invalid.fields.clinic.value,'');
+assert.equal(invalid.fields.purpose.value,'opd');
+assert.equal(invalid.fields['booking-output'].hidden,true);
+const html=fs.readFileSync(path.join(root,'appointments.html'),'utf8');
+assert.match(html,/id="whatsapp-request" target="_blank" rel="noopener noreferrer"/);
+assert.ok(!/<(?:input|textarea)\b/i.test(html));
+console.log('PASS: local suppression, sanitised events, contact classification, clinic selection and truthful WhatsApp handoff.');
 console.log(`PASS: syntax of ${scripts} inline JavaScript blocks.`);
