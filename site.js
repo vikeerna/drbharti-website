@@ -3,7 +3,7 @@
   'use strict';
   var live = location.hostname === 'drbhartisurgery.com';
   var locations = ['bariatu', 'samford', 'ranchi', 'garhwa', 'general', 'unsure', 'unknown'];
-  var placements = ['hero', 'sidebar', 'inline', 'float', 'sticky_bar', 'location_card', 'form', 'unknown'];
+  var placements = ['hero', 'sidebar', 'inline', 'float', 'sticky_bar', 'location_card', 'form', 'nav', 'mobile_top', 'unknown'];
   function safe(value, allowed) { return allowed.indexOf(value) !== -1 ? value : 'unknown'; }
   function pageLocation() {
     if (location.pathname.indexOf('bariatu-') !== -1) return 'bariatu';
