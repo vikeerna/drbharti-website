@@ -2,6 +2,8 @@
 
 ## Latest owner direction and verified state
 
+- 12 OCTOBER: Owner requested corrected RFA graphic. Corrected image integrated (1055x1491), individualized recovery claims, FALS (Robotic) footer. Six suites pass. Full 93-file ZIP with complete 62-image subtree, no .htaccess: outputs/website-rfa-graphic-correction-2026-10-12/drbhartisurgery-corrected-rfa-full-upload-2026-10-12.zip. Not uploaded/pushed. Supersedes held-back RFA graphic state.
+
 - 10 OCTOBER OWNER ANSWERS: works full time at Samford; emergency scope includes abdominal, chest and vascular trauma with ICU support (wording restored); FALS (Robotic) organised by IAGES (named in qualification lists); Constant Lievens newspaper caption kept. Supersedes the narrowed B3 wording.
 
 - 10 OCTOBER ROUND 3 REVIEW FIXES (Claude): ChatGPT B1–B4 and improvements 1–6 applied — see outputs/website-build-claude-2026-10-10c/Review-round-3-resolution.md. Emergency trauma/vascular/ICU wording deliberately narrowed until owner confirms. Six suites pass; manifest 88 files.

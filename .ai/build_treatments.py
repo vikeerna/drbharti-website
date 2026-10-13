@@ -7,7 +7,7 @@ from html import escape as e
 from page_frame import write_page, BASE
 from treatment_details import EXTRA_PAGES, PROCEDURES
 from restored_content import TREATMENT_EXTRA, INSURANCE, CREDENTIAL_BAND
-from original_content import DETAILS, RECOVERY, WHY, PHOTO, FAQS
+from original_content import DETAILS, RECOVERY, WHY, PHOTO, FIGURES, RESEARCH, FAQS
 from round3_content import hindi_section
 
 PAGES = [
@@ -126,8 +126,18 @@ def build(p):
         return f'<section class="journey-section detail-section" id="{sid}"><div class="container reading-width"><p class="journey-eyebrow">{e(eyebrow)}</p><h2>{e(title)}</h2>{body}</div></section>'
     details=''.join(detail(sec) for sec in DETAILS[p['file']])
     timeline='<ul class="timeline-list">'+''.join(f'<li><strong>{e(k)}</strong><span>{e(v)}</span></li>' for k,v in RECOVERY[p['file']])+'</ul>'
-    img,alt=PHOTO[p['file']]
-    why=f'''<section class="journey-section tint" id="why"><div class="container journey-split"><div><p class="journey-eyebrow">Your surgeon</p><h2>Why patients consult Dr. Vikeerna Bharti</h2><ul class="journey-list">{''.join(f'<li>{e(w)}</li>' for w in WHY)}</ul><a class="journey-textlink" href="about-dr-vikeerna-bharti.html">Qualifications and operative experience →</a></div><figure class="clinic-photo"><img src="{img}" width="1050" height="1400" loading="lazy" alt="{e(alt,quote=True)}"><figcaption>{e(alt)}</figcaption></figure></div></section>'''
+    why_list=f'''<p class="journey-eyebrow">Your surgeon</p><h2>Why patients consult Dr. Vikeerna Bharti</h2><ul class="journey-list">{''.join(f'<li>{e(w)}</li>' for w in WHY)}</ul><a class="journey-textlink" href="about-dr-vikeerna-bharti.html">Qualifications and operative experience →</a>'''
+    if p['file'] in PHOTO:
+        img,alt=PHOTO[p['file']]
+        why=f'''<section class="journey-section tint" id="why"><div class="container journey-split"><div>{why_list}</div><figure class="clinic-photo"><img src="{img}" width="1050" height="1400" loading="lazy" alt="{e(alt,quote=True)}"><figcaption>{e(alt)}</figcaption></figure></div></section>'''
+    else:
+        why=f'<section class="journey-section tint" id="why"><div class="container reading-width">{why_list}</div></section>'
+    figures=''
+    if p['file'] in FIGURES:
+        heading,items=FIGURES[p['file']]
+        figures=''.join(f'<figure class="disease-figure{" disease-figure--portrait" if h>w else ""}"><img src="{src}" width="{w}" height="{h}" loading="lazy" alt="{e(alt,quote=True)}"><figcaption>{e(cap)}'+(f' <a href="{src}" target="_blank" rel="noopener">View full-size diagram ↗</a>' if diagram else '')+'</figcaption></figure>' for src,w,h,alt,cap,diagram in items)
+        figures=f'<section class="journey-section" id="explained"><div class="container reading-width"><h2>{e(heading)}</h2>{figures}</div></section>'
+    research=f'<p class="treatment-note">{RESEARCH[p["file"]]}</p>' if p['file'] in RESEARCH else ''
     symptoms=''.join(f'<li>{e(item)}</li>' for item in x['symptoms'])
     about=f'''<section class="journey-section" id="symptoms"><div class="container journey-split"><div><p class="journey-eyebrow">Understanding the condition</p><h2>{e(x['what_title'])}</h2><p>{e(x['what'])}</p></div><div class="journey-card"><h2 class="card-heading">{e(x['symptoms_title'])}</h2><ul class="journey-list">{symptoms}</ul><p class="journey-small">{e(x['symptoms_note'])}</p></div></div></section>'''
 
@@ -142,9 +152,10 @@ def build(p):
 <aside class="journey-panel treatment-doctor"><div class="treatment-doctor-heading"><img src="images/dr-vikeerna-bharti-portrait.jpg" width="1021" height="1280" alt="Dr. Vikeerna Bharti"><div><p class="journey-eyebrow">Your consultation</p><h2>Dr. Vikeerna Bharti</h2></div></div><p>General &amp; laparoscopic surgeon<br><strong>MS General Surgery, PGIMER Chandigarh</strong><br>FMAS · FIAGES · FALS (Robotic)</p><hr><p><strong>Ranchi Dental and Polyclinic</strong><br>Bariatu Road, Near Manipal Hospital, Ranchi<br>Mon–Sat, 9–10 AM &amp; 5–7:30 PM</p><a class="journey-textlink" href="https://maps.app.goo.gl/aGJb7LgdmoKjzaMR6" target="_blank" rel="noopener" data-location="bariatu" data-wa-cta="location_card"><span aria-hidden="true">⌖ </span>Open clinic directions ↗</a><p class="journey-small"><a href="appointments.html#locations">Samford &amp; Garhwa visit details</a></p></aside></div></div></section>
 <nav class="treatment-jumps container" aria-label="On this page"><a href="#symptoms">Symptoms</a><a href="#assessment">Assessment</a><a href="#procedures">Conditions &amp; procedures</a><a href="#options">Treatment options</a><a href="#recovery">Recovery &amp; risks</a><a href="#cost">Cost</a><a href="#page-faq">FAQs</a></nav>
 {about}
+{figures}
 {details}
 <section class="journey-section" id="assessment"><div class="container journey-split"><div><p class="journey-eyebrow">The first consultation</p><h2>{e(p['assessment_title'])}</h2><p>{e(p['assessment'])}</p></div><div class="journey-card"><h3>What to bring</h3><p>{e(p['bring'])}</p><p>Bring a list of medicines and allergies, and the questions you would like answered.</p></div></div></section>
-<section class="journey-section tint" id="procedures"><div class="container"><p class="journey-eyebrow">Medical names, explained simply</p><h2>Conditions and operations you may hear about</h2><div class="procedure-list">{procedures}</div><p class="journey-small treatment-note">The procedure is chosen after assessment. A technique listed here is not suitable for every patient.</p></div></section>
+<section class="journey-section tint" id="procedures"><div class="container"><p class="journey-eyebrow">Medical names, explained simply</p><h2>Conditions and operations you may hear about</h2><div class="procedure-list">{procedures}</div><p class="journey-small treatment-note">The procedure is chosen after assessment. A technique listed here is not suitable for every patient.</p>{research}</div></section>
 <section class="journey-section" id="options"><div class="container"><p class="journey-eyebrow">An individual treatment plan</p><h2>Options to discuss</h2><div class="journey-grid">{cards}</div><p class="journey-small treatment-note">These are general options, not a recommendation for an individual patient. Your examination and reports guide the advice.</p></div></section>
 {CREDENTIAL_BAND}
 <section class="journey-section" id="recovery"><div class="container journey-split"><div><p class="journey-eyebrow">Planning ahead</p><h2>Recovery and return to routine</h2><p>{e(p['recovery'])}</p>{timeline}</div><div><p class="journey-eyebrow">Informed decisions</p><h2>Benefits and risks belong in the same conversation</h2><p>{e(p['risks'])}</p><a class="journey-textlink" href="second-opinion-surgery-ranchi.html">Already advised a procedure? Plan a second opinion →</a></div></div></section>
@@ -155,8 +166,12 @@ def build(p):
 <section class="journey-section" id="contact"><div class="container journey-split"><div><p class="journey-eyebrow">Take the next step</p><h2>Bring your questions to an OPD visit</h2><p>Choose your clinic and prepare an appointment request. Review the message and press Send in WhatsApp.</p><p>You can visit during the listed OPD hours. For Garhwa, please check the visiting date before travelling.</p><div class="journey-actions"><a class="journey-button" href="appointments.html#request">Choose your appointment</a><a class="journey-button secondary" href="tel:+916206091982">Call 62060 91982</a></div></div><div><p class="journey-eyebrow">Further reading</p><h2>Information sources</h2><ul class="treatment-sources">{sources}</ul><p class="journey-small">Content updated 10 October 2026. General patient information; an examination is needed for personalised advice.</p><p class="journey-small"><a href="index.html#about">About Dr. Bharti</a> · <a href="privacy-policy.html">Privacy &amp; enquiries</a></p></div></div></section>
 {calculator}<section class="journey-section tint"><div class="container"><h2>Other surgical concerns</h2><div class="journey-conditions">{related}<a href="index.html#treatments">View all conditions</a></div></div></section>
 </main>'''
+    # Image metadata for Google Images: page figures and the theatre photo, credited to Dr. Bharti.
+    images=[(src,w,h,alt,cap) for src,w,h,alt,cap,_ in (FIGURES[p['file']][1] if p['file'] in FIGURES else [])]
+    if p['file'] in PHOTO: images.append((PHOTO[p['file']][0],1050,1400,PHOTO[p['file']][1],PHOTO[p['file']][1]))
+    image_schema=[{'@type':'ImageObject','@id':BASE+src+'#image','contentUrl':BASE+src,'url':BASE+src,'name':alt,'caption':cap,'width':w,'height':h,'creator':{'@id':BASE+'#doctor'},'creditText':'Dr. Vikeerna Bharti','copyrightNotice':'© Dr. Vikeerna Bharti','isPartOf':{'@id':BASE+p['file']+'#webpage'}} for src,w,h,alt,cap in images]
     schema=[{'@type':'FAQPage','@id':BASE+p['file']+'#page-faq','mainEntity':[{'@type':'Question','name':q,'acceptedAnswer':{'@type':'Answer','text':a}} for q,a in p['faqs']]}, {'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':'Home','item':BASE},{'@type':'ListItem','position':2,'name':'Treatments','item':BASE+'#treatments'},{'@type':'ListItem','position':3,'name':p['label'],'item':BASE+p['file']}]}]
-    write_page(p['file'],p['title'],p['description'],body,extra_schema=schema)
+    write_page(p['file'],p['title'],p['description'],body,extra_schema=schema+image_schema)
 
 
 if __name__=='__main__':

@@ -78,4 +78,23 @@ assert 'ICU support' in em and 'Vascular emergencies' in em and 'IAGES' in main(
 assert 'After emergency care: follow-up visits' in em and 'Call Dr. Bharti: 62060 91982' in em and 'cold, pale or numb' in em
 for name in ['surgeon-in-garhwa.html','bariatu-surgery-clinic-ranchi.html','laparoscopic-surgeon-jharkhand.html']:
     assert re.search(r'<section[^>]*id="hindi"[^>]*lang="hi"', main(name)), name
-print('PASS: content restoration — symptoms, Hindi, second-opinion band, insurance, homepage sections, Garhwa reception-first, location pages, gallery/about, sitemap, BMI reset; original FAQ counts, nav dropdown links, Garhwa OT, thyroid/RFA/emergency facts; round 3: FALS, no dates/awards, Hindi on 15 pages, emergency page, Google review embed, new Garhwa photo.')
+# 12 Oct: owner-checked photo placement and restored original disease graphics.
+for name,want,never in [
+ ('gallbladder-stone-surgery-ranchi.html',['images/gallbladder-stone-disease-infographic.jpg','images/ot-laparoscopy-dr-bharti-4.jpg'],['ot-laparoscopy-tower']),
+ ('appendix-surgery-ranchi.html',['images/ot-laparoscopy-tower.jpg'],['ot-laparoscopy-dr-bharti-4']),
+ ('hernia-surgery-ranchi.html',['images/hernia-disease-infographic.jpg','images/ot-laparoscopy-dr-bharti-3.jpg','href="blog-post-etep.html"','href="blog-post-lumbar-hernia.html"','Hernia repair explained in a diagram'],[]),
+ ('bariatric-surgery-ranchi.html',['images/bariatric-sleeve-gastrectomy-infographic.jpg','images/ot-laparoscopy-dr-bharti-2.jpg'],[]),
+ ('varicose-veins-treatment-ranchi.html',['images/varicose-rfa-before-after.jpg','Varicose veins treatment with RFA, explained','images/varicose-rfa-technique-infographic.jpg'],['ot-laparoscopy','ot-surgical-team']),
+ ('thyroid-surgery-ranchi.html',[],['ot-surgical-team','ot-laparoscopy']),
+ ('piles-fistula-surgery-ranchi.html',[],['ot-instrument-trolley','ot-laparoscopy']),
+ ('emergency-surgery-ranchi.html',['images/ot-instrument-trolley.jpg','images/ot-surgical-team.jpg','emergency laparotomy'],[])]:
+    m=main(name)
+    for w in want: assert w in m,(name,w)
+    for n in never: assert n not in m,(name,n)
+# 12 Oct: image SEO — ImageObject schema and image sitemap entries for the varicose figures.
+vv=(ROOT/'varicose-veins-treatment-ranchi.html').read_text(encoding='utf-8'); sm=(ROOT/'sitemap.xml').read_text(encoding='utf-8')
+for img in ['images/varicose-rfa-before-after.jpg','images/varicose-rfa-technique-infographic.jpg']:
+    assert f'"contentUrl": "https://drbhartisurgery.com/{img}"' in vv, img
+    assert f'<image:loc>https://drbhartisurgery.com/{img}</image:loc>' in sm, img
+assert 'xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"' in sm
+print('PASS: content restoration — symptoms, Hindi, second-opinion band, insurance, homepage sections, Garhwa reception-first, location pages, gallery/about, sitemap, BMI reset; original FAQ counts, nav dropdown links, Garhwa OT, thyroid/RFA/emergency facts; round 3: FALS, no dates/awards, Hindi on 15 pages, emergency page, Google review embed, new Garhwa photo; owner-checked theatre photos and restored disease graphics.')

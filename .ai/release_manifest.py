@@ -4,7 +4,7 @@ from html.parser import HTMLParser
 from urllib.parse import urlsplit, unquote
 import hashlib, json, re
 ROOT=Path(__file__).resolve().parents[1]
-OUT=ROOT.parent/'outputs'/'website-build-claude-2026-10-10c'
+OUT=ROOT.parent/'outputs'/'website-photo-fix-2026-10-12'
 # Deliberately reviewed images only. Adding another asset requires reviewing its contents.
 IMAGES={
  'images/dr-vikeerna-bharti-portrait.jpg','images/apple-touch-icon.png',
@@ -17,6 +17,8 @@ IMAGES={
  # 10 Oct round 2: owner's new operating-theatre photographs (EXIF stripped)
  'images/ot-laparoscopy-dr-bharti-1.jpg','images/thumb/ot-laparoscopy-dr-bharti-1.jpg','images/ot-laparoscopy-dr-bharti-2.jpg','images/thumb/ot-laparoscopy-dr-bharti-2.jpg','images/ot-laparoscopy-dr-bharti-3.jpg','images/thumb/ot-laparoscopy-dr-bharti-3.jpg','images/ot-laparoscopy-dr-bharti-4.jpg','images/thumb/ot-laparoscopy-dr-bharti-4.jpg','images/ot-laparoscopy-dr-bharti-5.jpg','images/thumb/ot-laparoscopy-dr-bharti-5.jpg','images/ot-laparoscopy-tower.jpg','images/thumb/ot-laparoscopy-tower.jpg','images/ot-surgical-team.jpg','images/thumb/ot-surgical-team.jpg','images/ot-instrument-trolley.jpg','images/thumb/ot-instrument-trolley.jpg'
 }
+# 12 Oct: restored graphics and owner-requested corrected RFA technique graphic; consent on file for clinical comparison.
+IMAGES |= {'images/gallbladder-stone-disease-infographic.jpg','images/hernia-disease-infographic.jpg','images/bariatric-sleeve-gastrectomy-infographic.jpg','images/varicose-rfa-before-after.jpg','images/varicose-rfa-technique-infographic.jpg'}
 files={p.name for p in ROOT.glob('*.html')} | {'style.css','journey.css','site.js','journey.js','patient-tools.js','favicon.ico','robots.txt','sitemap.xml'} | IMAGES
 class Assets(HTMLParser):
     def handle_starttag(self,tag,attrs):
