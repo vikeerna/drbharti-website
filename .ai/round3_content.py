@@ -71,6 +71,10 @@ def emergency_body():
             '<section class="journey-section tint" id="emergencies"><div class="container"><h2>Surgical emergencies treated 24/7</h2>'
             '<p class="section-intro">Dr. Bharti works full time at Samford Super Speciality Hospital, where emergency assessment and surgery are available day and night with anaesthesia and ICU support. Keyhole or open surgery is chosen according to the condition, and specialist referral is arranged when it is needed.</p>'
             f'<div class="journey-grid">{cards}</div></div></section>'
+            '<section class="journey-section"><div class="container"><h2>In the operating theatre</h2><div class="photo-row ot-row">'
+            '<figure class="clinic-photo"><img src="images/ot-instrument-trolley.jpg" width="1050" height="1400" loading="lazy" alt="Instruments in use during an emergency laparotomy"><figcaption>During an emergency laparotomy</figcaption></figure>'
+            '<figure class="clinic-photo"><img src="images/ot-surgical-team.jpg" width="1400" height="1050" loading="lazy" alt="Dr. Vikeerna Bharti with the operating theatre team"><figcaption>With the operating theatre team</figcaption></figure>'
+            '</div></div></section>'
             '<section class="journey-section" id="page-faq"><div class="container reading-width"><h2>Emergency surgery: common questions</h2>'
             f'<div class="journey-faq">{faqs}</div></div></section>')
 

@@ -127,15 +127,29 @@ WHY = ['MS General Surgery from PGIMER Chandigarh',
        'FMAS, FIAGES and FALS (Robotic) fellowships in minimal access surgery',
        'Operates at Samford Super Speciality Hospital, Ranchi, with 24/7 emergency surgery, ICU support and cashless insurance and Ayushman Bharat',
        'Consultations at Bariatu and Samford in Ranchi, and a visiting OPD at Sai Sushila Sishu Hospital, Garhwa']
+# Theatre photo beside "Why patients consult"; placement checked by Dr. Bharti, 12 Oct 2026.
+# Pages without a matching operation photo have none (team and laparotomy photos are on the emergency page).
 PHOTO = {
-'gallbladder-stone-surgery-ranchi.html':('images/ot-laparoscopy-tower.jpg','Laparoscopy tower and monitor during keyhole surgery'),
+'gallbladder-stone-surgery-ranchi.html':('images/ot-laparoscopy-dr-bharti-4.jpg','Dr. Vikeerna Bharti during keyhole surgery'),
 'hernia-surgery-ranchi.html':('images/ot-laparoscopy-dr-bharti-3.jpg','Dr. Vikeerna Bharti performing laparoscopic surgery'),
-'varicose-veins-treatment-ranchi.html':('images/ot-laparoscopy-dr-bharti-1.jpg','Dr. Vikeerna Bharti in the operating theatre'),
-'piles-fistula-surgery-ranchi.html':('images/ot-instrument-trolley.jpg','Sterile surgical instruments prepared for an operation'),
 'bariatric-surgery-ranchi.html':('images/ot-laparoscopy-dr-bharti-2.jpg','Dr. Vikeerna Bharti during laparoscopic surgery'),
-'appendix-surgery-ranchi.html':('images/ot-laparoscopy-dr-bharti-4.jpg','Dr. Vikeerna Bharti during keyhole surgery'),
-'thyroid-surgery-ranchi.html':('images/ot-surgical-team.jpg','Dr. Vikeerna Bharti with the operating theatre team'),
+'appendix-surgery-ranchi.html':('images/ot-laparoscopy-tower.jpg','Dr. Vikeerna Bharti during laparoscopic appendix surgery'),
 'acid-reflux-surgery-ranchi.html':('images/ot-laparoscopy-dr-bharti-5.jpg','Dr. Vikeerna Bharti in the operating theatre'),
+}
+
+# Original-site disease graphics and RFA result, restored as they were (owner approved 12 Oct 2026;
+# written consent on file for the before/after photograph). page: (heading, [(src, width, height, alt, caption, diagram)])
+# 12 Oct: RFA technique graphic corrected at owner's request; individual recovery advice replaces absolute claims.
+FIGURES = {
+'gallbladder-stone-surgery-ranchi.html':('Gallbladder surgery explained in a diagram',[('images/gallbladder-stone-disease-infographic.jpg',1000,1249,'Diagram of gallstones, common symptoms and laparoscopic gallbladder removal','Gallbladder stone disease: symptoms, cause, treatment and recovery',True)]),
+'hernia-surgery-ranchi.html':('Hernia repair explained in a diagram',[('images/hernia-disease-infographic.jpg',1000,750,'Diagram showing an abdominal wall hernia and repair options','How a hernia forms, its common signs and treatment',True)]),
+'bariatric-surgery-ranchi.html':('Sleeve gastrectomy explained',[('images/bariatric-sleeve-gastrectomy-infographic.jpg',1000,750,'Diagram comparing the stomach before and after sleeve gastrectomy','Sleeve gastrectomy: how it works and who may be considered',True)]),
+'varicose-veins-treatment-ranchi.html':('Varicose veins treatment with RFA, explained',[('images/varicose-rfa-before-after.jpg',1200,675,'Varicose veins before and after RFA treatment: clinical photographs of one patient','Before and after Radiofrequency Ablation (RFA): actual clinical photographs of the same patient treated by Dr. Vikeerna Bharti, shown with the patient’s written consent. Individual results may vary.',False),('images/varicose-rfa-technique-infographic.jpg',1055,1491,'Diagram of radiofrequency ablation (RFA) for varicose veins: an ultrasound-guided catheter closes the faulty vein','How RFA treats a faulty vein. Soreness and small marks can occur; compression and recovery advice depend on your treatment.',True)]),
+}
+
+# Research links shown under the procedures list.
+RESEARCH = {
+'hernia-surgery-ranchi.html':'Read Dr. Bharti’s co-authored research on <a href="blog-post-etep.html">eTEP hernia repair</a> and <a href="blog-post-lumbar-hernia.html">laparoscopic repair of primary lumbar hernia</a>. Published research does not predict an individual patient’s result.',
 }
 
 # Every original FAQ question, with corrected answers.
