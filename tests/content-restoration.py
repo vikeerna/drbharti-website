@@ -62,11 +62,12 @@ em=main('emergency-surgery-ranchi.html')
 for k in ['Intestinal obstruction','Perforation and peritonitis','strangulated hernia','day and night','id="page-faq"','Samford Super Speciality Hospital']: assert k.lower() in em.lower(), k
 assert 'id="emergency"' in home and 'emergency-surgery-ranchi.html' in home
 assert (ROOT/'sitemap.xml').read_text(encoding='utf-8').count('emergency-surgery-ranchi.html')==1
+_SHOW='SHOW_CARDS = True' in (ROOT/'.ai'/'google_reviews.py').read_text(encoding='utf-8')
 for name in ['index.html','bariatu-surgery-clinic-ranchi.html']:
-    m=main(name); assert 'class="review-embed"' in m and 'output=embed' in m and 'loading="lazy"' in m, name
+    m=main(name); assert ('class="review-card"' in m or not _SHOW) and 'iframe' not in m and 'query_place_id=ChIJxcKRJAbj9DkREUTv8FsVn08' in m and 'writereview?placeid=' in m, name
 assert 'AggregateRating' not in ''.join(x.read_text(encoding='utf-8') for x in pages)
 assert 'images/garhwa-anaesthesia-workstation.jpg' in g and 'garhwa-anesthesia-photo' not in g
-assert 'Google may set cookies' in main('privacy-policy.html')
+assert (('stored on this website, using text recorded from the public Google profile' in main('privacy-policy.html'))==('SHOW_CARDS = True' in (ROOT/'.ai'/'google_reviews.py').read_text(encoding='utf-8'))) and 'Updated 17 October 2026' in main('privacy-policy.html')
 # Round 3 review fixes (ChatGPT B1-B4, improvements)
 allhtml=''.join(x.read_text(encoding='utf-8') for x in pages)
 for bad in ['गुदा में चीरा','avoids the risk','all general surgical emergencies','painless','आंत रुकना','Ranchi (2025)','Ranchi (2024)']:
@@ -97,4 +98,19 @@ for img in ['images/varicose-rfa-before-after.jpg','images/varicose-rfa-techniqu
     assert f'"contentUrl": "https://drbhartisurgery.com/{img}"' in vv, img
     assert f'<image:loc>https://drbhartisurgery.com/{img}</image:loc>' in sm, img
 assert 'xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"' in sm
+# 17 Oct: all Google reviews shown; no retired Google short links anywhere.
+from importlib import util as _u
+_spec=_u.spec_from_file_location('google_reviews',ROOT/'.ai'/'google_reviews.py'); _gr=_u.module_from_spec(_spec); _spec.loader.exec_module(_gr)
+home=main('index.html'); bar=main('bariatu-surgery-clinic-ranchi.html')
+if _gr.SHOW_CARDS:
+    for _m in (home,bar):
+        assert _m.count('class="review-card"')==_gr.COUNT and _m.count('role="img" aria-label="')==_gr.COUNT and 'Approx. ' in _m
+    assert f'Show all {_gr.COUNT} reviews' in home or _gr.COUNT<=6
+    assert all(1<=r[1]<=5 for r in _gr.REVIEWS) and len({(r[0],r[3]) for r in _gr.REVIEWS})==_gr.COUNT
+else:
+    for _m in (home,bar,main('privacy-policy.html')):
+        assert 'review-card' not in _m and '4.9' not in _m and 'from 13 reviews' not in _m
+    assert 'Open Google profile' in home and 'Open Google profile' in bar
+for x in pages:
+    t=x.read_text(encoding='utf-8'); assert 'maps.app.goo.gl' not in t and 'share.google/' not in t and '&amp;amp;' not in t, x.name
 print('PASS: content restoration — symptoms, Hindi, second-opinion band, insurance, homepage sections, Garhwa reception-first, location pages, gallery/about, sitemap, BMI reset; original FAQ counts, nav dropdown links, Garhwa OT, thyroid/RFA/emergency facts; round 3: FALS, no dates/awards, Hindi on 15 pages, emergency page, Google review embed, new Garhwa photo; owner-checked theatre photos and restored disease graphics.')

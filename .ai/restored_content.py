@@ -175,5 +175,5 @@ GARHWA_PHOTOS = [
  ('images/garhwa-anaesthesia-workstation.jpg',1200,900,'Anaesthesia workstation in the Garhwa operation theatre','Anaesthesia workstation'),
  ('images/garhwa-autoclave-photo.jpg',720,540,'Horizontal autoclave for sterilising surgical instruments in Garhwa','Instrument sterilisation (autoclave)'),
 ]
-GOOGLE_PROFILE='https://maps.app.goo.gl/aGJb7LgdmoKjzaMR6'
+GOOGLE_PROFILE='https://www.google.com/maps/search/?api=1&amp;query=Dr.+Vikeerna+Bharti%2C+Bariatu+Road%2C+Ranchi&amp;query_place_id=ChIJxcKRJAbj9DkREUTv8FsVn08'
 GOOGLE_REVIEW='https://search.google.com/local/writereview?placeid=ChIJxcKRJAbj9DkREUTv8FsVn08'
