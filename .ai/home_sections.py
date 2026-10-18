@@ -1,8 +1,8 @@
 """Homepage sections restored on 10 October 2026 (symptom finder, gallery preview, reviews, FAQs)."""
 from html import escape as e
-from restored_content import SYMPTOM_FINDER, GALLERY, GOOGLE_PROFILE, GOOGLE_REVIEW, INSURANCE
+from restored_content import SYMPTOM_FINDER, GALLERY, INSURANCE
 from original_content import SERVICES, HOME_FAQS
-from round3_content import review_embed
+from google_reviews import review_section_cards, review_summary, review_actions
 
 SYMPTOMS = ('<section class="journey-section tint" id="symptom-finder"><div class="container"><p class="journey-eyebrow">Start with what you feel</p>'
     '<h2>Common symptoms and where to read more</h2><p class="section-intro">Patients usually search for a symptom, not a diagnosis. These are common patterns only; an examination is needed to know the cause.</p>'
@@ -19,13 +19,11 @@ GALLERY_PREVIEW = ('<section class="journey-section" id="media"><div class="cont
     '<p class="journey-small">Newspaper reports are shown as published; they describe past events and do not predict an individual result.</p></div></section>')
 
 REVIEWS = ('<section class="journey-section tint" id="reviews"><div class="container journey-split"><div><p class="journey-eyebrow">Patient feedback</p>'
-    '<h2>Patient reviews on Google</h2><p>Read what patients have shared on Dr. Vikeerna Bharti’s Google profile, or leave feedback after your consultation. Reviews are written by patients on Google; individual experiences vary.</p>'
-    f'<div class="journey-actions"><a class="journey-button" href="{GOOGLE_PROFILE}" target="_blank" rel="noopener">Read reviews on Google ↗</a>'
-    f'<a class="journey-button secondary" href="{GOOGLE_REVIEW}" target="_blank" rel="noopener">Write a review ↗</a></div></div>'
+    '<h2>Patient reviews on Google</h2>' + review_summary() + review_actions() + '</div>'
     '<div class="journey-card"><h3>Why patients come for a second opinion</h3><ul class="journey-list"><li>MS General Surgery from PGIMER Chandigarh; senior residency at PGIMER and AIIMS Bhubaneswar</li>'
     '<li>FMAS, FIAGES and FALS (Robotic) fellowships in minimal access surgery</li><li>Laparoscopic gallbladder, hernia and abdominal-wall, bariatric, anorectal, thyroid and vein surgery</li>'
     '<li>Published surgical research, including The Lancet Global Health and a Springer book chapter</li><li>Three locations: Bariatu and Samford in Ranchi, and visiting OPD in Garhwa</li></ul>'
-    '<a class="journey-textlink" href="about-dr-vikeerna-bharti.html">More about Dr. Bharti →</a></div></div><div class="container">'+review_embed()+'</div></section>')
+    '<a class="journey-textlink" href="about-dr-vikeerna-bharti.html">More about Dr. Bharti →</a></div></div><div class="container">'+review_section_cards(6)+'</div></section>')
 
 _PRACTICAL = [
  ('What should I bring?', 'Bring available reports and scans, previous prescriptions, a list of medicines and allergies, and any previous operation or discharge records. You do not need to order new tests just to request an appointment.'),

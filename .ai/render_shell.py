@@ -58,9 +58,9 @@ def render():
         text=text.replace('</body>','\n'+FOOTER+'\n</body>')
         if 'id="page-content"' not in text:
             text=text.replace('</header>', '</header>\n<div id="page-content" tabindex="-1"></div>',1)
-        if 'href="journey.css' not in text: text=text.replace('</head>','<link rel="stylesheet" href="journey.css?v=20261010d">\n</head>')
+        if 'href="journey.css' not in text: text=text.replace('</head>','<link rel="stylesheet" href="journey.css?v=20261017b">\n</head>')
         if 'src="journey.js' not in text: text=text.replace('</body>','<script src="journey.js?v=20261010d" defer></script>\n</body>')
-        text=re.sub(r'journey\.css\?v=[^"\s]+', 'journey.css?v=20261010d', text)
+        text=re.sub(r'journey\.css\?v=[^"\s]+', 'journey.css?v=20261017b', text)
         text=re.sub(r'journey\.js\?v=[^"\s]+', 'journey.js?v=20261010d', text)
         text=text.replace('site.js?v=20260928','site.js?v=20261009')
         text=re.sub(r'patient-tools\.js\?v=[^"\s]+', 'patient-tools.js?v=20261010d', text)
